@@ -84,6 +84,14 @@ class EbayAPI < Evil::Client
     end
   end
 
+  response(404) do |_, _, (data, *)|
+    data = data.to_h
+    error = data.dig("errors", 0) || {}
+    code = error["errorId"]
+    message = error["longMessage"] || error["message"]
+    raise NotFound.new(code: code), message
+  end
+
   # https://go.developer.ebay.com/api-call-limits
   response(429) do |_, _, (data, *)|
     data = data.to_h
