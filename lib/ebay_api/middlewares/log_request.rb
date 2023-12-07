@@ -12,7 +12,8 @@ class EbayAPI
     private
 
     def logger
-      @logger ||= EbayAPI.logger
+      # @logger ||= EbayAPI.logger
+      @logger ||= Rails.logger
     end
 
     def log_info(key, data = nil)
