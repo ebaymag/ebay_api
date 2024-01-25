@@ -98,6 +98,7 @@ class EbayAPI < Evil::Client
     code = data.dig("errors", 0, "errorId")
     message =
         data.dig("errors", 0, "longMessage") || data.dig("errors", 0, "message")
-    raise InternalServerError.new(code: code), message
+    parameters = data.dig("errors",0,"parameters")
+    raise InternalServerError.new(code: code), message, parameters
   end
 end
