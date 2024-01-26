@@ -1,6 +1,6 @@
 class EbayAPI
   class Error < RuntimeError
-    attr_reader :code, :data
+    attr_reader :code, :data, :parameters
 
     def initialize(*args, code: nil, data: nil, parameters: nil, **)
       super(*args)
