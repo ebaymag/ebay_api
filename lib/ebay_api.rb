@@ -98,7 +98,15 @@ class EbayAPI < Evil::Client
     code = data.dig("errors", 0, "errorId")
     message =
         data.dig("errors", 0, "longMessage") || data.dig("errors", 0, "message")
+    errorId = get_error_id(data)
+    raise InternalServerError.new(code: code), message, errorId
+  end
+
+  def get_error_id(data)
     parameters = data.dig("errors",0,"parameters")
-    raise InternalServerError.new(code: code), message, parameters
+    error = (parameters || []).filter{|p| p["name"]== "errorId"}
+    (error || {}).dig("value")
+  rescue StandardError
+    nil
   end
 end

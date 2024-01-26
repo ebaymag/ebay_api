@@ -1,12 +1,12 @@
 class EbayAPI
   class Error < RuntimeError
-    attr_reader :code, :data, :parameters
+    attr_reader :code, :data, :error_id
 
-    def initialize(*args, code: nil, data: nil, parameters: nil, **)
+    def initialize(*args, code: nil, data: nil, error_id: nil, **)
       super(*args)
       @code = code
       @data = data
-      @parameters = parameters
+      @error_id = error_id
     end
   end
 
