@@ -93,20 +93,20 @@ class EbayAPI < Evil::Client
     raise RequestLimitExceeded.new(code: code), message
   end
 
+  def self.get_error_id(data)
+    parameters = data.dig("errors",0,"parameters")
+    error = (parameters || []).filter{|p| p["name"] == "errorId"}
+    (error || {}).dig("value")
+  rescue StandardError
+    nil
+  end
+
   response(500) do |_, _, (data, *)|
     data = data.to_h
     code = data.dig("errors", 0, "errorId")
     message =
         data.dig("errors", 0, "longMessage") || data.dig("errors", 0, "message")
-    errorId = get_error_id(data)
+    errorId = EbayAPI.get_error_id(data)
     raise InternalServerError.new(code: code), message, errorId
-  end
-
-  def get_error_id(data)
-    parameters = data.dig("errors",0,"parameters")
-    error = (parameters || []).filter{|p| p["name"]== "errorId"}
-    (error || {}).dig("value")
-  rescue StandardError
-    nil
   end
 end
