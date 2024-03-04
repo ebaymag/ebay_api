@@ -1,6 +1,6 @@
 class EbayAPI
   scope :commerce do
-    scope :internal do
+    scope :ebaymagapi do
       operation :send_message do
         option :data, proc(&:to_h) # TODO: add model to validate input
 
