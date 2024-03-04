@@ -4,9 +4,9 @@ class EbayAPI
   #
   # @see https://developer.ebay.com/api-docs/commerce/static/commerce-landing.html
   #
-  scope :commerce do
+  scope :ebaymagapi do
     path "ebaymagapi"
 
-    require_relative "ebaymagapi/ebaymagapi"
+    require_relative "ebaymagapi/v1"
   end
 end

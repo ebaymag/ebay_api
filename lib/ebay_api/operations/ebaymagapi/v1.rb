@@ -5,7 +5,7 @@ class EbayAPI
     #
     # @see
     #
-    scope :ebaymagapi do
+    scope :v1 do
       path { "v1" }
 
       require_relative "send_message/send_message"
