@@ -10,6 +10,6 @@ class EbayAPI
     require_relative "commerce/notification"
     require_relative "commerce/taxonomy"
     require_relative "commerce/translation"
-    require_relative "commerce/internal"
+    require_relative "commerce/ebaymagapi"
   end
 end
