@@ -46,7 +46,8 @@ class EbayAPI < Evil::Client
   end
 
   format "json"
-  path   { "https://api#{".sandbox" if sandbox}.ebay.com/" }
+  # path   { "https://api#{".sandbox" if sandbox}.ebay.com/" }
+  path   { "http://localhost:9090/" }
 
   middleware { [LogRequest, JSONResponse] }
 
