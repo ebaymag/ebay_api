@@ -8,7 +8,8 @@ class EbayAPI
     scope :v1 do
       path { "v1" }
 
-      require_relative "send_message/send_message"
+      require_relative "operations/send_message"
+      require_relative "operations/poll_message"
     end
   end
 end
