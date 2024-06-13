@@ -1,0 +1,5 @@
+HTTP/1.1 404 Not Found
+Content-Length: 188
+Content-Type: application/json
+
+{"errors":[{"errorId":25713,"domain":"API_INVENTORY","subdomain":"Selling","category":"REQUEST","message":"This Offer is not available.","parameters":[{"name":"text1","value":"123456"}]}]}
