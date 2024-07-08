@@ -19,6 +19,23 @@ class EbayAPI
       logger.info "[EbayAPI] | #{format('%9s', key)} | #{data}"
     end
 
+    def log_api_request_log(env)
+      return unless Thread.current[:request_listing_id] || Thread.current[:request_account_id]
+
+      Thread.current[:request_callname] = env["REQUEST_METHOD"]
+      Thread.current[:request_url] = env["PATH_INFO"]
+      Thread.current[:request_headers] = env["HTTP_Variables"]
+      Thread.current[:request_body] = env["rack.input"]
+    end
+
+    def log_api_response_log(output)
+      return unless Thread.current[:request_listing_id] || Thread.current[:request_account_id]
+
+      status, headers, body = output
+      Thread.current[:response_headers] = headers
+      Thread.current[:response_body] = body
+    end
+
     def log_request(env)
       log_api_request_log(env)
       return unless logger
@@ -40,20 +57,5 @@ class EbayAPI
     end
   end
 
-  def log_api_request_log(env)
-    return unless Thread.current[:request_listing_id] || Thread.current[:request_account_id]
 
-    Thread.current[:request_callname] = env["REQUEST_METHOD"]
-    Thread.current[:request_url] = env["PATH_INFO"]
-    Thread.current[:request_headers] = env["HTTP_Variables"]
-    Thread.current[:request_body] = env["rack.input"]
-  end
-
-  def log_api_response_log(output)
-    return unless Thread.current[:request_listing_id] || Thread.current[:request_account_id]
-
-    status, headers, body = output
-    Thread.current[:response_headers] = headers
-    Thread.current[:response_body] = body
-  end
 end
