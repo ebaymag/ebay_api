@@ -20,6 +20,7 @@ class EbayAPI
     end
 
     def log_request(env)
+      log_api_request_log(env)
       return unless logger
       log_info "REQUEST:"
       log_info "Url",     env["PATH_INFO"]
@@ -29,6 +30,7 @@ class EbayAPI
     end
 
     def log_response(output)
+      log_api_response_log(output)
       return unless logger
       status, headers, body = output
       log_info "RESPONSE:"
@@ -36,5 +38,22 @@ class EbayAPI
       log_info "Headers", headers
       log_info "Body",    body
     end
+  end
+
+  def log_api_request_log(env)
+    return unless Thread.current[:request_listing_id] || Thread.current[:request_account_id]
+
+    Thread.current[:request_callname] = env["REQUEST_METHOD"]
+    Thread.current[:request_url] = env["PATH_INFO"]
+    Thread.current[:request_headers] = env["HTTP_Variables"]
+    Thread.current[:request_body] = env["rack.input"]
+  end
+
+  def log_api_response_log(output)
+    return unless Thread.current[:request_listing_id] || Thread.current[:request_account_id]
+
+    status, headers, body = output
+    Thread.current[:response_headers] = headers
+    Thread.current[:response_body] = body
   end
 end
