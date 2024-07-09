@@ -6,6 +6,7 @@ class EbayAPI
 
     def call(env)
       log_request(env)
+      @start_time = Time.now
       @app.call(env).tap { |output| log_response(output) }
     end
 
@@ -37,6 +38,7 @@ class EbayAPI
       Thread.current[:response_headers] = headers
       Thread.current[:response_body] = body
       Thread.current[:response_code] = status
+      Thread.current[:response_time] = Time.now = @start_time
     end
 
     def log_request(env)
