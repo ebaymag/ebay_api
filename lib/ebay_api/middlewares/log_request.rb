@@ -19,8 +19,9 @@ class EbayAPI
       logger.info "[EbayAPI] | #{format('%9s', key)} | #{data}"
     end
 
+    APIS = %w(PUT DELETE POST)
     def log_api_request_log(env)
-      return unless Thread.current[:request_listing_id] || Thread.current[:request_account_id]
+      return unless APIS.include?(env["REQUEST_METHOD"])
 
       Thread.current[:request_callname] = env["REQUEST_METHOD"]
       Thread.current[:request_url] = env["PATH_INFO"]
@@ -29,7 +30,7 @@ class EbayAPI
     end
 
     def log_api_response_log(output)
-      return unless Thread.current[:request_listing_id] || Thread.current[:request_account_id]
+      return unless Thread.current[:request_callname]
 
       status, headers, body = output
       Thread.current[:response_headers] = headers
