@@ -27,6 +27,7 @@ class EbayAPI
       Thread.current[:request_url] = env["PATH_INFO"]
       Thread.current[:request_headers] = env["HTTP_Variables"]
       Thread.current[:request_body] = env["rack.input"]
+      Thread.current[:request_restful] = true
     end
 
     def log_api_response_log(output)
@@ -35,6 +36,7 @@ class EbayAPI
       status, headers, body = output
       Thread.current[:response_headers] = headers
       Thread.current[:response_body] = body
+      Thread.current[:response_code] = status
     end
 
     def log_request(env)
