@@ -40,7 +40,7 @@ class EbayAPI
       Thread.current[:response_headers] = headers
       Thread.current[:response_body] = body
       Thread.current[:response_code] = status
-      Thread.current[:response_time] = Time.now = @start_time
+      Thread.current[:response_time] = Time.now - @start_time
     rescue StandardError
       nil
     end
