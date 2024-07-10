@@ -6,6 +6,7 @@ class EbayAPI
 
     def call(env)
       log_request(env)
+      @start_time = Time.now
       @app.call(env).tap { |output| log_response(output) }
     end
 
@@ -19,7 +20,33 @@ class EbayAPI
       logger.info "[EbayAPI] | #{format('%9s', key)} | #{data}"
     end
 
+    APIS = %w(PUT DELETE POST)
+    def log_api_request_log(env)
+      return unless APIS.include?(env["REQUEST_METHOD"])
+
+      Thread.current[:request_callname] = env["REQUEST_METHOD"]
+      Thread.current[:request_url] = env["PATH_INFO"]
+      Thread.current[:request_headers] = env["HTTP_Variables"]
+      Thread.current[:request_body] = env["rack.input"]
+      Thread.current[:request_restful] = true
+    rescue StandardError
+      nil
+    end
+
+    def log_api_response_log(output)
+      return unless Thread.current[:request_callname]
+
+      status, headers, body = output
+      Thread.current[:response_headers] = headers
+      Thread.current[:response_body] = body
+      Thread.current[:response_code] = status
+      Thread.current[:response_time] = Time.now - @start_time
+    rescue StandardError
+      nil
+    end
+
     def log_request(env)
+      log_api_request_log(env)
       return unless logger
       log_info "REQUEST:"
       log_info "Url",     env["PATH_INFO"]
@@ -29,6 +56,7 @@ class EbayAPI
     end
 
     def log_response(output)
+      log_api_response_log(output)
       return unless logger
       status, headers, body = output
       log_info "RESPONSE:"
@@ -37,4 +65,6 @@ class EbayAPI
       log_info "Body",    body
     end
   end
+
+
 end
