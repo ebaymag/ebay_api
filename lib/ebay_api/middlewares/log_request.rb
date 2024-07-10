@@ -29,6 +29,8 @@ class EbayAPI
       Thread.current[:request_headers] = env["HTTP_Variables"]
       Thread.current[:request_body] = env["rack.input"]
       Thread.current[:request_restful] = true
+    rescue StandardError
+      nil
     end
 
     def log_api_response_log(output)
@@ -39,6 +41,8 @@ class EbayAPI
       Thread.current[:response_body] = body
       Thread.current[:response_code] = status
       Thread.current[:response_time] = Time.now = @start_time
+    rescue StandardError
+      nil
     end
 
     def log_request(env)
