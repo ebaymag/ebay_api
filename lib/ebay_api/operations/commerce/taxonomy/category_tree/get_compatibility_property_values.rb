@@ -6,7 +6,7 @@ class EbayAPI
         operation :get_compatibility_property_values do
           option :category_id, proc(&:to_s)
           option :compatibility_property, proc(&:to_s)
-          option :filter, proc(&:to_s)
+          option :filter, proc(&:to_s),optional:true
 
           path { "get_compatibility_property_values" }
           query { { category_id: category_id,compatibility_property:compatibility_property }.merge(filter ? {filter:filter} : {}) }
