@@ -9,7 +9,7 @@ class EbayAPI
           option :filter, proc(&:to_s)
 
           path { "get_compatibility_property_values" }
-          query { { category_id: category_id } }
+          query { { category_id: category_id,compatibility_property:compatibility_property }.merge(filter ? {filter:filter} : {}) }
           http_method :get
         end
       end
