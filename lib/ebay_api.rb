@@ -38,6 +38,7 @@ class EbayAPI < Evil::Client
   option :sandbox,    true.method(:&), default:  proc { false }
   option :gzip,       true.method(:&), default:  proc { false }
   option :user_agent, method(:String), optional: true
+  option :form_data?,  optional: true, default: false
 
   validate do
     next unless language && site
@@ -62,7 +63,7 @@ class EbayAPI < Evil::Client
       "User-Agent":       user_agent,
       "X-Ruby-Client":    "https://github.com/nepalez/ebay_api",
       "X-Ruby-Framework": "https://github.com/evilmartians/evil-client"
-    }.compact
+    }.merge(form_data? ? { "Content-Type": "multipart/form-data" } : {}).compact
   end
 
   response(200, 201) { |_, _, (data, *)| data }
