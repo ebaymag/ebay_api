@@ -6,7 +6,6 @@ class EbayAPI
 
     def call(env)
       log_request(env)
-      @start_time = Time.now
       @app.call(env).tap { |output| log_response(output) }
     end
 
@@ -26,7 +25,6 @@ class EbayAPI
 
       Thread.current[:request_callname] = env["REQUEST_METHOD"]
       Thread.current[:request_url] = env["PATH_INFO"]
-      Thread.current[:request_headers] = env["HTTP_Variables"]
       Thread.current[:request_body] = env["rack.input"]
       Thread.current[:request_restful] = true
     rescue StandardError
@@ -40,7 +38,6 @@ class EbayAPI
       Thread.current[:response_headers] = headers
       Thread.current[:response_body] = body
       Thread.current[:response_code] = status
-      Thread.current[:response_time] = Time.now - @start_time
     rescue StandardError
       nil
     end
