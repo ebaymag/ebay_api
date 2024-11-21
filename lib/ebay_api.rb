@@ -62,8 +62,9 @@ class EbayAPI < Evil::Client
       "Accept-Charset":   charset,
       "User-Agent":       user_agent,
       "X-Ruby-Client":    "https://github.com/nepalez/ebay_api",
-      "X-Ruby-Framework": "https://github.com/evilmartians/evil-client"
-    }.merge(form ? { "Content-Type": "multipart/form-data" } : {}).compact
+      "X-Ruby-Framework": "https://github.com/evilmartians/evil-client",
+      "Content-Type":     "multipart/form-data"
+    }.compact
   end
 
   response(200, 201) { |_, _, (data, *)| data }
