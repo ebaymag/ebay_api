@@ -7,7 +7,7 @@ class EbayAPI
         #
         operation :upload do
           option :id
-          option :file
+          option :data
 
           path { "#{id}/upload" }
           http_method :post
