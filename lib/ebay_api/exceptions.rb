@@ -12,6 +12,9 @@ class EbayAPI
   class InvalidAccessToken < Error; end
   class AlreadyExists < Error; end
 
+  # HTTP 404 from eBay.
+  class NotFound < Error; end
+
   # HTTP 500 from eBay. May be retried in most cases.
   class InternalServerError < Error; end
 

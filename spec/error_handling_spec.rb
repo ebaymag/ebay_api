@@ -43,4 +43,17 @@ RSpec.describe EbayAPI, "error handling" do
       end
     end
   end
+
+  context "when offer already deleted" do
+    let(:response) do
+      open_fixture_file "resource_not_found"
+    end
+
+    it do
+      expect { subject }.to raise_error(EbayAPI::NotFound) do |ex|
+        expect(ex.code).to eq 25713
+        expect(ex.message).to match /This Offer is not available/
+      end
+    end
+  end
 end
