@@ -113,12 +113,10 @@ class EbayAPI::TokenManager
   end
 
   def log_response(response)
-    body,header,status = response
-
     Thread.current[:request_callname] = "RefreshAccessToken"
-    Thread.current[:response_headers] = header
-    Thread.current[:response_body] = body
-    Thread.current[:response_code] = status
+    Thread.current[:response_headers] = response.to_json
+    Thread.current[:response_body] = response.body
+    Thread.current[:response_code] = response.status
   rescue StandardError
     nil
   end
