@@ -75,8 +75,8 @@ class EbayAPI::TokenManager
     response = request!(token_endpoint, **options)
     body = JSON.parse(response.body)
     return body if response.is_a? Net::HTTPSuccess
-    handle_errors!(body)
     log_response(response)
+    handle_errors!(body)
   rescue JSON::ParserError
     log_response(response)
     message = "Response isn't JSON: #{response.code} - #{response.body}"
