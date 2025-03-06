@@ -115,7 +115,7 @@ class EbayAPI::TokenManager
   def log_response(response)
     body,header,status = response
 
-    Thread.current[:request_callname] = "refresh_access_token"
+    Thread.current[:request_callname] = "RefreshAccessToken"
     Thread.current[:response_headers] = header
     Thread.current[:response_body] = body
     Thread.current[:response_code] = status
