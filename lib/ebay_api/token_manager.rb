@@ -76,7 +76,9 @@ class EbayAPI::TokenManager
     body = JSON.parse(response.body)
     return body if response.is_a? Net::HTTPSuccess
     handle_errors!(body)
+    log_response(response)
   rescue JSON::ParserError
+    log_response(response)
     message = "Response isn't JSON: #{response.code} - #{response.body}"
     raise EbayAPI::Error, "Can't refresh access token: #{message}"
   end
@@ -108,5 +110,16 @@ class EbayAPI::TokenManager
     post.body = URI.encode_www_form(data)
     post.basic_auth appid, certid
     http.start { |r| r.request(post) }
+  end
+
+  def log_response(response)
+    body,header,status = response
+
+    Thread.current[:request_callname] = "refresh_access_token"
+    Thread.current[:response_headers] = header
+    Thread.current[:response_body] = body
+    Thread.current[:response_code] = status
+  rescue StandardError
+    nil
   end
 end
