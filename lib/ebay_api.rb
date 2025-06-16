@@ -70,7 +70,7 @@ class EbayAPI < Evil::Client
   response(204) { true }
 
   # https://developer.ebay.com/api-docs/static/handling-error-messages.html
-  response(400, 401, 409, 403) do |_, _, (data, *)|
+  response(400, 401, 409) do |_, _, (data, *)|
     data = data.to_h
     error = data.dig("errors", 0) || {}
     code = error["errorId"]
