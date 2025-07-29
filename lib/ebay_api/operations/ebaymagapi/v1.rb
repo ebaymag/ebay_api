@@ -11,6 +11,7 @@ class EbayAPI
       require_relative "operations/send_message"
       require_relative "operations/poll_message"
       require_relative "operations/send_batch_message"
+      require_relative "operations/poll_currency_exchange"
     end
   end
 end
