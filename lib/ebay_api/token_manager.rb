@@ -42,7 +42,7 @@ class EbayAPI::TokenManager
   def application_token
     request_token!(
       grant_type: "client_credentials",
-      scope: "https://api.ebay.com/oauth/api_scope"
+      scope: "https://api.ebay.com/oauth/scope/ebaymag@partner"
     )["access_token"]
   end
 
