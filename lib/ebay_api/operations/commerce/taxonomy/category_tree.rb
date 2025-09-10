@@ -16,6 +16,7 @@ class EbayAPI
         require_relative "category_tree/get_item_aspects_for_category"
         require_relative "category_tree/fetch_item_aspects"
         require_relative "category_tree/get_compatibility_properties"
+        require_relative "category_tree/get_compatibility_property_values"
       end
     end
   end
