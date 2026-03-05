@@ -31,7 +31,7 @@ class EbayAPI < Evil::Client
     attr_accessor :logger
   end
 
-  option :token
+  # option :token
   option :site,       Site,            optional: true
   option :language,   Language,        optional: true
   option :charset,    Charset,         default:  proc { "utf-8" }
@@ -46,14 +46,14 @@ class EbayAPI < Evil::Client
   end
 
   format "json"
-  path   { "https://api#{".sandbox" if sandbox}.ebay.com/" }
+  path   { "http://localhost:5050/" }
 
   middleware { [LogRequest, JSONResponse] }
 
-  security do
-    token_value = token.respond_to?(:call) ? token.call : token
-    token_auth token_value, prefix: "Bearer"
-  end
+  # security do
+  #   token_value = token.respond_to?(:call) ? token.call : token
+  #   token_auth token_value, prefix: "Bearer"
+  # end
 
   headers do
     {
